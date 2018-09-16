@@ -26,20 +26,12 @@ X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPA
 
 title1
 'Research Question: What is the distribution of the workers absenteeism based on the dataset ?'
+
 ;
 
 title2
-'Rationale: This should help draw a whole picture of the absenteesim hours during the selected time period, moreover, .'
-;
+'Rationale: This should help draw a whole picture of the absenteesim hours during the selected time period.'
 
-footnote1
-
-;
-
-footnote2
-
-
-footnote3
 ;
 
 *
@@ -53,91 +45,67 @@ Possible Follow-up Steps: More carefully clean the values of the variable
 Absenteeism_at_work so that the means computed do not include any possible
 illegal values, and better handle missing data, e.g., by rolling average of previous years' data as a proxy 
 or ingoring if it's a very small percentage.
-;
-proc print
-        noobs
-        data=Absenteeism_at_work_temp(obs=20)
-    ;
-    id
-        ID
-    ;
-    var
-        absenteeism_time_in_hours
-    ;
-run;
 
-proc univariate data=Absenteeism_at_work_temp;
+;
+
+proc mean data=Absenteeism_at_work_temp;
     var absenteeism_time_in_hours;
 	histogram;
 run;
 
 title;
-footnote;
 
 
 
 title1
-'Research Question:  What factors are mostly related to workers absenteeism?'
+'Research Question:  What was the most common reason for the absenteesim?'
+
 ;
 
 title2
-'Rationale: This would help not only inform what are the factors affect the workers absenteesim hours but also predict workers abssentism.'
-;
-
-footnote1
-
-;
-
-footnote2
-
-;
-
-footnote3
+'Rationale: This would help to find out whether most of the workers were havign the same reason for absenteesim. '
 
 ;
 
 *
-Methodology: Draw scatter plots for each pair, then select the potential variables to compute a multiple linear regression model.
+Methodology: Used proc frec to find the frequency of each reason, using the result to find out the most common one.
 
-Limitations: This methodology may not be good enough to explain some factors affection such as the reason for absence 
-which is a coded categroy variable.
+Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee even someone may have more count of one reason.
 
-Possible Follow-up Steps: Further analysis may be needed to check specific factors effection.
+Possible Follow-up Steps: Add weight to the frequency count.
+
 ;
 
-
-
-    ;
+proc freq  data =Absenteeism_at_work_temp
+	table Reason for absence;
 run;
 title;
-footnote;
+
 
 
 
 title1
-'Research Question: Is there any seasonal patthern of absenteeism hours? '
+'Research Question: Is there any week pattern of absenteeism hours? '
+
 ;
 
 title2
-'Rationale: This would help determine which season of the year has the most often absenteeism or longerst absenteesim hours. 
+'Rationale: This would help determine which day of the week has the most often absenteeism. 
 In reality, it would help with work schedule.
 
-footnote1
-
 ;
 
-footnote2
-
-;
 *
-Methodology: Use proc count to study the seasonal pattern for each season. Count the 'Absenteeism time in hours' where value is not 0,
+Methodology: Use proc freq to study the weekly pattern for each season. Count the 'Absenteeism time in hours' where value is not 0,
 group by seasons.Besides, the sum of absentteesim time in hours in each season could also be calculated for detail information.
 
-Limitations: Seasonal pattern might be too general in some cases.
+Limitations: Limitation may be caused by the duplication of IDs since a single employee .
 Follow-up Steps: A possible follow-up to this approach could check the pattern by month or even by week when needed.
 ;
 
-  
+proc freq data =Absenteeism_at_work_temp
+	table Day_of_the_week;
+	where Absenteeism_time_in_hour NE 0;
 run;
 title;
-footnote;
+
