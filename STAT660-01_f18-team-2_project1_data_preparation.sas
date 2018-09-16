@@ -20,7 +20,8 @@ downloaded from the UCI machine learning repository.
 
 [Data Dictionary] https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#
 
-[Unique ID] first column ID
+[Unique ID] ID
+
 ;
 
 
@@ -77,7 +78,7 @@ proc sort
 	out=_null_
   ;
   by
-    id
+    id 
  ;
 run;
 
