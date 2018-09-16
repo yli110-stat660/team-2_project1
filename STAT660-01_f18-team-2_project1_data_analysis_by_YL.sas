@@ -19,7 +19,7 @@ See included file for dataset properties
 
 * set relative file import path to current directory (using standard SAS trick);
 X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPATH))-%length(%sysget(SAS_EXECFILENAME))))""";
-/*what does this mean?*/
+
 
 * load external file that generates analytic dataset Absenteeism_at_work;
 %include '.\STAT660-01_f18-team-2_project1_data_preparation.sas';
@@ -35,44 +35,41 @@ title2
 ;
 
 footnote1
-''
+'Based on the summary table, the average absenteeism at work is 6.99 hours with a median of 3 hours'
 ;
 
 footnote2
-''
+'Histogram shows that the distribution of absenteeism is right skewed, but most of the absenteeism hours are between 0 and 10 hours'
 ;
 
 footnote3
-''
+'After grouping the employees, we can easily see that a few employees have many absent hours while some have very small amount of absenteeism, which explained the skewness of the histogram'
 ;
 *
-Methodology: First use PROC PRINT to print just the first twenty observations 
-from the temporary dataset created in the corresponding data-prep file to 
-check if the file has been correctly created. Then draw a histogram of the 
-last variable in the data set which is the absenteeism hours.
+Methodology: First use PROC MEANS to check the mean, median and a few other 
+statistics for several interested variables, and then get a histogram to vividly
+show the distribtuion of absenteeism time in hours.
 
-Limitations: A histogram may not clearly reflect the distribution of the 
-absenteeism hours.
+Limitations: Because the experimental unit and measurement unit are different
+in this case, getting the mean and median for variables that show the employees' 
+properties has no practical meaning.
 
-Possible Follow-up Steps: A smooth surve should be added to see if it's 
-skewed.
-
+Possible Follow-up Steps: use a CLASS statement in PROC MEANS to get the summary
+statistics for each employee
 ;
-proc print
-        noobs
-        data=Absenteeism_at_work_temp(obs=20)
-    ;
-    id
-        ID
-    ;
-    var 
-        age education son
-    ;
+proc means data = absenteeism_at_work_noduprecs mean median maxdec=2;
+    var Absenteeism_time_in_hours;
 run;
 
-proc univariate data=Absenteeism_at_work_temp;
-    var absenteeism_time_in_hours;
+
+proc univariate data=Absenteeism_at_work_noduprecs noprint;
+    var Absenteeism_time_in_hours;
 	histogram;
+run;
+
+proc means data=absenteeism_at_work_noduprecs mean median maxdec=2;
+    class id;
+	var Absenteeism_time_in_hours;
 run;
 
 title;
@@ -85,7 +82,7 @@ title1
 ;
 
 title2
-'Rationale: This helps to build a regression model that helps to predict a workers abseentism in the future.'
+'Rationale: This helps to build a linear regression model that helps to predict a workers abseentism in the future.'
 ;
 
 footnote1
@@ -111,8 +108,12 @@ Possible Follow-up Steps: run a scatter plot of each two factors to see if any
 have a linear relationship, if yes, only keep the factor that makes logical
 sense.
 ;
+proc logistic data=absence_categorical;
+	model absence = Work_load_Average_day;
+run;
+
 proc glm
-        data=Absenteeism_at_work
+        data=Absenteeism_at_work_noduprecs
     ;
     model
         absenteeism_time_in_hours= ~ /*this ~ is used in R, what about SAS*/
@@ -155,3 +156,4 @@ proc sgplot
 run;
 title;
 footnote;
+
