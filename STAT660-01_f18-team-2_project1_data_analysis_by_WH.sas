@@ -32,6 +32,17 @@ title1
 title2
 'Rationale: This should help draw a whole picture of the absenteesim hours during the selected time period.'
 
+footnote1
+'Based on the summary table, the average absenteeism at work is 6.99 hours with a median of 3 hours'
+;
+
+footnote2
+'Histogram shows that the distribution of absenteeism is right skewed, but most of the absenteeism hours are between 0 and 10 hours'
+;
+
+footnote3
+'After grouping the employees, we can easily see that a few employees have many absent hours while some have very small amount of absenteeism, which explained the skewness of the histogram'
+
 ;
 
 *
@@ -48,10 +59,11 @@ or ingoring if it's a very small percentage.
 
 ;
 
-proc mean data=Absenteeism_at_work_temp;
-    var absenteeism_time_in_hours;
-	histogram;
+proc means data=Absenteeism_at_work_noduprecs mean median maxdec=2;
+    var Absenteeism_time_in_hours;
+	
 run;
+
 
 title;
 
