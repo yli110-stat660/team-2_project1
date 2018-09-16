@@ -34,14 +34,16 @@ title2
 
 footnote1
 'Based on the summary table, the average absenteeism at work is 6.99 hours with a median of 3 hours'
+
 ;
 
 footnote2
-'Histogram shows that the distribution of absenteeism is right skewed, but most of the absenteeism hours are between 0 and 10 hours'
+'The distribution is highly skewed to the right which shows 90% of the absenteesim hours are less that 8 hours.There are also outliers values which were greater than 80 hours.The longest absenteesim hour was 120 hours. '
+
 ;
 
 footnote3
-'After grouping the employees, we can easily see that a few employees have many absent hours while some have very small amount of absenteeism, which explained the skewness of the histogram'
+'We can also find out the distribution of hours among differnet employees while grouping by employee ID.Among 36 employees, only 5 of them had average absenteeism hours more than 10 hours.'
 
 ;
 
@@ -64,8 +66,19 @@ proc means data=Absenteeism_at_work_noduprecs mean median maxdec=2;
 	
 run;
 
+proc univariate data=Absenteeism_at_work_raw;
+    var Absenteeism_time_in_hours;
+	histogram;
+run;
+
+proc means data=absenteeism_at_work_noduprecs mean median maxdec=2;
+    class id;
+	var Absenteeism_time_in_hours;
+run;
+
 
 title;
+footnote;
 
 
 
@@ -79,6 +92,16 @@ title2
 
 ;
 
+footnote1
+'Based on the summary table, the top 2 reasons were medical consultation(23) and dental consultation(28).'
+
+;
+
+footnote2
+'After grouping by ID, we could find the most common reason for absence for each employee. If combined with the answer to question 1, we are able to find the reasons for the employees with longer absenteeism hours. .'
+
+;
+
 *
 Methodology: Used proc frec to find the frequency of each reason, using the result to find out the most common one.
 
@@ -88,12 +111,15 @@ Possible Follow-up Steps: Add weight to the frequency count.
 
 ;
 
-proc freq  data =Absenteeism_at_work_temp
-	table Reason for absence;
+proc freq  data =Absenteeism_at_work_raw;
+	table Reason_for_absence /nocum;
+run;
+
+proc freq  data =Absenteeism_at_work_raw;
+	table Reason_for_absence*ID /nopercent;
 run;
 title;
-
-
+footnote;
 
 
 title1
