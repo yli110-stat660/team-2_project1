@@ -101,6 +101,7 @@ group by seasons.Besides, the sum of absentteesim time in hours in each season c
 
 Limitations: Limitation may be caused by the duplication of IDs since a single employee .
 Follow-up Steps: A possible follow-up to this approach could check the pattern by month or even by week when needed.
+
 ;
 
 proc freq data =Absenteeism_at_work_temp;
