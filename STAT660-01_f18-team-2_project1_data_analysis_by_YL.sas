@@ -54,7 +54,7 @@ Limitations: Because the experimental unit and measurement unit are different
 in this case, getting the mean and median for variables that show the employees' 
 properties has no practical meaning.
 
-Possible Follow-up Steps: use a CLASS statement in PROC MEANS to get the summary
+Follow-up Steps: use a CLASS statement in PROC MEANS to get the summary
 statistics for each employee
 ;
 proc means data = absenteeism_at_work_noduprecs mean median maxdec=2;
@@ -78,82 +78,86 @@ footnote;
 
 
 title1
-'Research Question: What factors are mostly related to workers absenteeism?'
+'Research Question: Is daily workload a factor that affects the absenteeism of employees?'
 ;
 
 title2
-'Rationale: This helps to build a linear regression model that helps to predict a workers abseentism in the future.'
+'Rationale: The answer for this question will help the manager of the company to evaluate if the employees are overloaded.'
 ;
 
 footnote1
-''
+'The simple logistic regression gives a p value of 0.3866 for the coefficient of daily workload, which suggests that daily workload is not a significant factor affecting absenteeism.'
 ;
-
 footnote2
-''
+'A simple linear regression of daily workload on absent hours revealed the same conclusion: workload is statistically irrelavent to absenteeism at work.'
 ;
 
-footnote3
-''
-;
 
 *
-Methodology: Compute a linear regression model that has all the factors, then
-compare the significant values of these factors.
+Methodology: compute a logistic regression to see if the daily workload affects
+employees' absenteeism. Because the dataset doesn't have a binary variable to 
+indicate absenteeism, a new variable called absence was created and used to run 
+logistic regression.
 
-Limitations: didn't check if there were co-founding factors, that is, if any of
-the two factors have a linear relationship.
+Limitations: Because every employee has repeated measurements in the dataset, it
+is not accurate to use this dataset to run regression, as the more absent worker
+has more "weighted" conditions for evaluating factors of absenteeism.
 
-Possible Follow-up Steps: run a scatter plot of each two factors to see if any
-have a linear relationship, if yes, only keep the factor that makes logical
-sense.
+Possible Follow-up Steps: check the total abseentism for every worker, and 
+create a subset of the dataset, which only has the 36 employees with a binary
+variable to indicate if he or she is ever absent.
 ;
 proc logistic data=absence_categorical;
 	model absence = Work_load_Average_day;
 run;
 
-proc glm
-        data=Absenteeism_at_work_noduprecs
-    ;
-    model
-        absenteeism_time_in_hours= ~ /*this ~ is used in R, what about SAS*/
-    ;
+proc glm ;
+	model absenteeism_time_in_hours = Work_load_Average_day;
 run;
+
 title;
 footnote;
 
 
 
 title1
-'Research Question: How is workload related to absenteesim?'
+'Research Question: What are the most common reasons for the absenteeism of employees?'
 ;
 
 title2
-'Rationale: Studying the relationships between workload and absenteesim can help HR to decide a proper workload for workers'
+'Rationale: Knowing the common reasons for absenteeism gives adive on the management, and helps to improve the vacation policies'
 ;
 
 footnote1
-''
+'The reason frequency table for each worker is given. It lists the reason frequency for every worker.'
 ;
 
 footnote2
-''
+'The modified table only considers the absenteeism, and removed the workers who never missed work.'
 ;
 *
-Methodology: Plot workload Vs absenteeism in order to check their 
-relationships.
+Methodology: Use a two-way frequency table to take a glance at the common 
+absenteeism reasons for each employee. Each row represents the situiton for each
+worker.
 
-Limitations: only visual diagnostics are not adequate.
+Limitations: It is hard to evaluate the freuency distribution difference among
+different workers.
 
-Follow-up Steps: Use some sort of a test to see if their colinearity
-is significant or not.
+Possilble Follow-up Steps: get a histogram for the reasons' frequency and then
+compare the histograms between workers -- data visualizaion often helps to 
+quickly identify the change.
 ;
-proc sgplot
-        data=Absenteeism_at_work
-    ;
-    scatter x=workload y=absenteeism_time_in_hours;
-    ;
+proc freq data = absenteeism_at_work_noduprecs;
+	tables id*reason_for_absence /nopercent norow nocol;
+	format reason_for_absence reasonofabsence.;
 run;
+
+proc freq data = absence_categorical;
+	tables id*reason_for_absence /nopercent norow nocol;
+	where absence = 1;
+	format reason_for_absence reasonofabsence.;
+run;
+
 title;
 footnote;
 
