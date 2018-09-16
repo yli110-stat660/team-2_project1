@@ -22,7 +22,7 @@ X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPA
 /*what does this mean?*/
 
 * load external file that generates analytic dataset Absenteeism_at_work;
-%include '.\STAT660_f18-team-2_project1_data_preparation.sas';
+%include '.\STAT660-01_f18-team-2_project1_data_preparation.sas';
 
 
 
