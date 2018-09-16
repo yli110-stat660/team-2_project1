@@ -33,17 +33,17 @@ title2
 'Rationale: This should help draw a whole picture of the absenteesim hours during the selected time period.'
 
 footnote1
-'Based on the summary table, the average absenteeism at work is 6.99 hours with a median of 3 hours'
+'Based on the summary table, the average absenteeism at work is 13.44 hours with a median of 4 hours'
 
 ;
 
 footnote2
-'The distribution is highly skewed to the right which shows 90% of the absenteesim hours are less that 8 hours.There are also outliers values which were greater than 80 hours.The longest absenteesim hour was 120 hours. '
+'The distribution is highly skewed to the right which shows 75% of the absenteesim hours are less that 8 hours.The longest absenteesim hour was 120 hours. '
 
 ;
 
 footnote3
-'We can also find out the distribution of hours among differnet employees while grouping by employee ID.Among 36 employees, only 5 of them had average absenteeism hours more than 10 hours.'
+'We can also find out the distribution of hours among differnet employees while grouping by employee ID.Employee 9 had the biggest average absenteeism hours of 41 hours.'
 
 ;
 
@@ -66,7 +66,7 @@ proc means data=Absenteeism_at_work_noduprecs mean median maxdec=2;
 	
 run;
 
-proc univariate data=Absenteeism_at_work_raw;
+proc univariate data=Absenteeism_at_work_noduprecs;
     var Absenteeism_time_in_hours;
 	histogram;
 run;
@@ -93,7 +93,7 @@ title2
 ;
 
 footnote1
-'Based on the summary table, the top 2 reasons were medical consultation(23) and dental consultation(28).'
+'Based on the summary table, the most common reason was medical consultation(23).'
 
 ;
 
@@ -111,11 +111,11 @@ Possible Follow-up Steps: Add weight to the frequency count.
 
 ;
 
-proc freq  data =Absenteeism_at_work_raw;
+proc freq  data =Absenteeism_at_work_noduprecs;
 	table Reason_for_absence /nocum;
 run;
 
-proc freq  data =Absenteeism_at_work_raw;
+proc freq  data =Absenteeism_at_work_noduprecs;
 	table Reason_for_absence*ID /nopercent;
 run;
 title;
@@ -133,6 +133,12 @@ In reality, it would help with work schedule.
 
 ;
 
+footnote1
+'Based on the summary table, 29% employee were usually absence on the second day of the week. Since there are five work days a week, I would say there was no special day that employee would be absence.'
+
+;
+
+
 *
 Methodology: Use proc freq to study the weekly pattern for each season. Count the 'Absenteeism time in hours' where value is not 0,
 group by seasons.Besides, the sum of absentteesim time in hours in each season could also be calculated for detail information.
@@ -141,9 +147,10 @@ Limitations: Limitation may be caused by the duplication of IDs since a single e
 Follow-up Steps: A possible follow-up to this approach could check the pattern by month or even by week when needed.
 ;
 
-proc freq data =Absenteeism_at_work_temp
+proc freq data =Absenteeism_at_work_noduprecs;
 	table Day_of_the_week;
-	where Absenteeism_time_in_hour NE 0;
+	where Absenteeism_time_in_hours NE 0;
 run;
 title;
+footnote;
 
