@@ -76,7 +76,7 @@ Possible Follow-up Steps: Add weight to the frequency count.
 
 ;
 
-proc freq  data =Absenteeism_at_work_temp
+proc freq  data =Absenteeism_at_work_temp;
 	table Reason for absence;
 run;
 title;
@@ -103,7 +103,7 @@ Limitations: Limitation may be caused by the duplication of IDs since a single e
 Follow-up Steps: A possible follow-up to this approach could check the pattern by month or even by week when needed.
 ;
 
-proc freq data =Absenteeism_at_work_temp
+proc freq data =Absenteeism_at_work_temp;
 	table Day_of_the_week;
 	where Absenteeism_time_in_hour NE 0;
 run;
