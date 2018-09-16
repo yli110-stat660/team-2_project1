@@ -77,7 +77,7 @@ Possible Follow-up Steps: Add weight to the frequency count.
 ;
 
 proc freq  data =Absenteeism_at_work_temp;
-	table Reason for absence;
+	table Reason_for_absence;
 run;
 title;
 
