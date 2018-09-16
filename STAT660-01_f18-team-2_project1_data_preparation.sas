@@ -20,8 +20,7 @@ downloaded from the UCI machine learning repository.
 
 [Data Dictionary] https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#
 
-[Unique ID] ID
-
+[Unique ID] ID, Absenteeism_time_in_hours form a composite key
 ;
 
 
@@ -75,10 +74,10 @@ proc sort
     nodupkey
 	data=Absenteeism_at_work_raw
 	dupout=Absenteeism_at_work_dups
-	out=_null_
+	out=Absenteeism_at_work_noduprecs
   ;
   by
-    id 
+    id Absenteeism_time_in_hours
  ;
 run;
 
