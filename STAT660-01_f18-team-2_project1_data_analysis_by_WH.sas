@@ -129,11 +129,11 @@ title2
 ;
 
 footnote1
-'Based on the summary table, there is no such special day. It's almost a uniform distribution.'
+'Based on the summary table, there is no such special day. 5 work days have the same frequency.'
 
 ;
 *
-Methodology: Use proc freq to study the weekly pattern for each season. Count the 'Absenteeism time in hours' where value is not 0,
+Methodology: Use proc freq to study the weekly pattern for each season. Count the Absenteeism_time_in hours where value is not 0,
 Crosstable with ID is also used to find out the week pattern of each employee.
 
 Limitations: In special month or season, it may have special daily distribution.
