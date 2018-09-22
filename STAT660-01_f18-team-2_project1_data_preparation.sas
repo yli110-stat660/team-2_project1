@@ -106,29 +106,41 @@ proc sort
     noduprecs
 	data=Absenteeism_at_work_raw
 	dupout=Absenteeism_at_work_dups
-	out=Absenteeism_at_work_noduprecs /*this is the dataset used to answer
-	the first research question by YL*/
+	out=Absenteeism_at_work_noduprecs
   ;
   by
     id
  ;
 run;
 
-*get the dataset that each employee only occupies one row;
-proc sort
-    nodupkey
-	data=Absenteeism_at_work_raw
-	dupout=Absenteeism_at_work_dups
-	out=Absenteeism_at_work_nodupkey
-  ;
-  by
-    id
- ;
+* build analytic dataset from Absenteeism_at_work_noduprecs dataset with the 
+least number of columns and minimal cleaning/transformation needed to 
+address research questions in corresponding data-analysis files;
+data Absenteeism_analytic_file;
+    retain
+        ID
+        Reason_for_absence
+        Month_of_absence
+        Day_of_the_week
+		Absenteeism_time_in_hours
+		Work_load_Average_day
+    ;
+    keep
+        ID
+        Reason_for_absence
+        Month_of_absence
+        Day_of_the_week
+		Absenteeism_time_in_hours
+		Work_load_Average_day
+    ;
+    set Absenteeism_at_work_noduprecs;
 run;
 
-*get a new variable absence which only takes the value 0 or 1;
-data absence_categorical; 
-/*this dataset is used to answer the 2nd question by YL*/
+
+*use the DATA step and IF statement to get a new variable absence which only 
+takes the value 0 or 1 in a tempary file, which will be used as part of the
+data analysis by YL;
+data Absenteeism_analytic_file_temp; 
 	set absenteeism_at_work_noduprecs;
 		absence = 0;
 		if absenteeism_time_in_hours >0 
