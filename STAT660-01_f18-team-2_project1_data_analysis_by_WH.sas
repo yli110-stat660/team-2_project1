@@ -46,7 +46,7 @@ footnote2
 ;
 
 *
-Methodology: Used proc frec to find the frequency of each reason, using the result to find out the most common one.
+Methodology: Used proc freq to find the frequency of each reason, using the result to find out the most common one.
 
 Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee for more accurate results.
 Follow-up Steps: Add weight to the frequency count.
@@ -87,12 +87,12 @@ Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_abs
 ;
 
 proc means data=absenteeism_at_work_raw mean median maxdec=2;
-    class reason_for_absence;
-    var Absenteeism_time_in_hours;
+	class reason_for_absence;
+	var Absenteeism_time_in_hours;
 run;
 
 proc means data=Absenteeism_at_work_raw mean median maxdec=2;
-    var Absenteeism_time_in_hours;
+	var Absenteeism_time_in_hours;
 run;
 title;
 footnote;
@@ -117,7 +117,7 @@ Methodology: Use proc freq to study the weekly pattern for each season. Count th
 Crosstable with ID is also used to find out the week pattern of each employee.
 
 Limitations: In special month or season, it may have special daily distribution.
-Follow-up Steps:Checking this pattern in a special month or season according to the context.
+Follow-up Steps:Check this pattern in a special month or season according to the context.
 ;
 
 proc freq data =Absenteeism_at_work_raw;
