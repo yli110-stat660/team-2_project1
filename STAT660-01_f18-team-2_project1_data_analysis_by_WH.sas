@@ -26,61 +26,6 @@ X "cd ""%substr(%sysget(SAS_EXECFILEPATH),1,%eval(%length(%sysget(SAS_EXECFILEPA
 
 ;
 
-
-
-title1
-'Research Question: What is the distribution of the workers absenteeism based on the dataset?'
-
-;
-
-title2
-'Rationale: This should help draw a whole picture of the absenteesim hours during the selected time period.'
-
-;
-
-footnote1
-'Based on the summary table, the average absenteeism at work is 6.92 hours with a median of 3 hours.'
-
-;
-
-footnote2
-'The distribution is highly skewed to the right which shows 90% of the absenteeism hours are less that 8 hours.'
-
-;
-
-footnote3
-'Each employee absenteeism hours distribution can be found out using grouping by employee ID.The result gives us more detailed information.'
-
-;
-*
-Methodology: Use PROC MEANS and PROC UNIVARIATE to conduct descriptive analysis on the dataset.
-Historgram is used to vividly show the distribtuion of absenteeism time in hours.
-
-Limitations: The raw data may have duplicated records. However, with the exsiting columns we are not able to distinguish them successfully.
-
-Possible Follow-up Steps: Add a week_number as a new column to the dataset if possible.
-Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
-
-;
-
-proc means data=Absenteeism_at_work_raw mean median maxdec=2;
-    var Absenteeism_time_in_hours;
-run;
-
-proc univariate data=Absenteeism_at_work_raw;
-    var Absenteeism_time_in_hours;
-	histogram;
-run;
-
-proc means data=absenteeism_at_work_raw mean median maxdec=2;
-    class id;
-	var Absenteeism_time_in_hours;
-run;
-title;
-footnote;
-
-
-
 title1
 'Research Question:  What was the most common reason for the absenteesim?'
 
@@ -101,11 +46,10 @@ footnote2
 ;
 
 *
-Methodology: Used proc frec to find the frequency of each reason, using the result to find out the most common one.
+Methodology: Used proc freq to find the frequency of each reason, using the result to find out the most common one.
 
-Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee even someone may have more count of one reason.
-
-Possible Follow-up Steps: Add weight to the frequency count.
+Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee for more accurate results.
+Follow-up Steps: Add weight to the frequency count.
 ;
 
 proc freq  data =Absenteeism_at_work_raw;
@@ -120,24 +64,60 @@ footnote;
 
 
 title1
+'Research Question: What are the reasons with longer absenteeism hours?'
+
+;
+
+title2
+'Rationale: This should help to have a general understanding of how many absenteeism hours related with each reason.'
+
+;
+
+footnote1
+'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours while the average of absenteeism hours is 6.92 hours. '
+
+;
+
+*
+Methodology: Use PROC MEANS to find out the average absenteeism hours for each reason.
+
+Limitations: There may be duplicates in the dataset.
+Follow-up Steps: Add a week_number as a new column to the dataset if possible.
+Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
+;
+
+proc means data=absenteeism_at_work_raw mean median maxdec=2;
+	class reason_for_absence;
+	var Absenteeism_time_in_hours;
+run;
+
+proc means data=Absenteeism_at_work_raw mean median maxdec=2;
+	var Absenteeism_time_in_hours;
+run;
+title;
+footnote;
+
+title1
 'Research Question: Is there a special day in a week that employees might be absent? '
 
 ;
 
 title2
 'Rationale: In reality, it would help with weekly work schedule.'
+
 ;
 
 footnote1
 'Based on the summary table, there is no such special day. 5 work days have the same frequency.'
 
 ;
+
 *
 Methodology: Use proc freq to study the weekly pattern for each season. Count the Absenteeism_time_in hours where value is not 0,
 Crosstable with ID is also used to find out the week pattern of each employee.
 
 Limitations: In special month or season, it may have special daily distribution.
-Follow-up Steps:Checking this pattern in a special month or season according to the context.
+Follow-up Steps:Check this pattern in a special month or season according to the context.
 ;
 
 proc freq data =Absenteeism_at_work_raw;
