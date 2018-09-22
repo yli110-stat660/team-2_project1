@@ -20,7 +20,7 @@ downloaded from the UCI machine learning repository.
 
 [Data Dictionary] https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#
 
-[Unique ID] first column ID
+[Unique ID] ID, Absenteeism_time_in_hours form a composite key
 ;
 
 
