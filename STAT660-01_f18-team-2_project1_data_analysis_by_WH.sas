@@ -38,10 +38,11 @@ title2
 
 footnote1
 'Based on the summary table, the most common reason was medical consultation(23).'
+
 ;
 
 footnote2
-'After grouping by ID, we could find the most common reason for absence for each employee. If combined with the answer to question 1, we are able to find the reasons for the employees with longer absenteeism hours. '
+'After grouping by ID, we could find the most common reason for absence for each employee.For example, employee 28 used reason 23 for 32 times.'
 
 ;
 
@@ -52,11 +53,11 @@ Limitations: Since each employee had multiple reasons,it would be better give sa
 Follow-up Steps: Add weight to the frequency count.
 ;
 
-proc freq  data =Absenteeism_at_work_raw;
+proc freq data =Absenteeism_analytic_file;
 	table Reason_for_absence /nocum;
 run;
 
-proc freq  data =Absenteeism_at_work_raw;
+proc freq  data =Absenteeism_analytic_file;
 	table Reason_for_absence*ID /nopercent;
 run;
 title;
@@ -74,7 +75,7 @@ title2
 ;
 
 footnote1
-'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours while the average of absenteeism hours is 6.92 hours. '
+'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours while the average of absenteeism hours is 6.99 hours. '
 
 ;
 
@@ -86,12 +87,12 @@ Follow-up Steps: Add a week_number as a new column to the dataset if possible.
 Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
 ;
 
-proc means data=absenteeism_at_work_raw mean median maxdec=2;
+proc means data=Absenteeism_analytic_file mean median maxdec=2;
 	class reason_for_absence;
 	var Absenteeism_time_in_hours;
 run;
 
-proc means data=Absenteeism_at_work_raw mean median maxdec=2;
+proc means data=Absenteeism_analytic_file mean median maxdec=2;
 	var Absenteeism_time_in_hours;
 run;
 title;
@@ -108,7 +109,7 @@ title2
 ;
 
 footnote1
-'Based on the summary table, there is no such special day. 5 work days have the same frequency.'
+'Based on the summary table, although day 2 of the week had a bit higher frequency of 22.34%, hypothesis testing will be needed for significance difference test.'
 
 ;
 
@@ -120,12 +121,12 @@ Limitations: In special month or season, it may have special daily distribution.
 Follow-up Steps:Check this pattern in a special month or season according to the context.
 ;
 
-proc freq data =Absenteeism_at_work_raw;
+proc freq data =Absenteeism_analytic_file;
 	table Day_of_the_week /nocum;
 	where Absenteeism_time_in_hours NE 0;
 run;
 
-proc freq data =Absenteeism_at_work_raw;
+proc freq data =Absenteeism_analytic_file;
 	table Day_of_the_week*ID /nocum;
 	where Absenteeism_time_in_hours NE 0;
 run;
