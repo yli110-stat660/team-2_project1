@@ -125,7 +125,7 @@ create a subset of the dataset, which only has the 36 employees with a binary
 variable to indicate if he or she is ever absent.
 ;
 proc logistic 
-		data=Absenteeism_analytic_file_temp
+		data=Absenteeism_analytic_file
 	;
 	model absence = Work_load_Average_day
 	;
@@ -143,19 +143,23 @@ footnote;
 
 
 title1
-'Research Question: Which employees have more absenteeism and what are their reasons?'
+'Research Question: Which employees have more absenteeism?'
 ;
 
 title2
-'Rationale: Identifying the employees who have more absenteeism helps to decide if their absenteeisms are due to personal issues or more common reasons among other employees?'
+'Rationale: Identifying the employees who have more absenteeism helps to decide if their absenteeisms are due to personal issues or more common reasons among other employees, in other words, it helps to decide if this employee is an outlier for our linear regression analysis.'
 ;
 
 footnote1
-'The reason frequency table for each worker is given. It lists the reason frequency for every worker.'
+'The reason frequency table for each worker is given. From this table, a few workers only had 1 absence reason listed as NA, which means that they are never absent from work.'
 ;
 
 footnote2
-'The modified table only considers the absenteeism, and removed the workers who never missed work.'
+'The modified table only considers the absenteeism, and removed the workers who never missed work. The third employee had 111 leaves, which means that he or she could be an outlier in determing the total absenteeism at work in this company.'
+;
+
+footnote3
+'The bar graph helps to quickly identify the employee who has more absenteeisms. The worker with ID 3 is certainly an observation we want to look into when doing analysis.'
 ;
 *
 Methodology: Use a two-way frequency table to take a glance at the common 
@@ -181,7 +185,7 @@ proc freq
 run;
 
 proc freq 
-		data = Absenteeism_analytic_file_temp
+		data = Absenteeism_analytic_file
 	;
 	tables 
 		id*reason_for_absence 
@@ -193,6 +197,17 @@ proc freq
 	format 
 		reason_for_absence reasonofabsence.;
 run;
+
+proc gchart 
+		data=absenteeism_analytic_file
+	;
+    vbar 
+		ID
+	;
+	where
+        absence = 1;
+run;
+quit;
 
 title;
 footnote;
