@@ -50,6 +50,7 @@ footnote2
 Methodology: Used proc freq to find the frequency of each reason, using the result to find out the most common one.
 
 Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee for more accurate results.
+
 Follow-up Steps: Add weight to the frequency count.
 ;
 
@@ -83,8 +84,8 @@ footnote1
 Methodology: Use PROC MEANS to find out the average absenteeism hours for each reason.
 
 Limitations: There may be duplicates in the dataset.
-Follow-up Steps: Add a week_number as a new column to the dataset if possible.
-Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
+
+Follow-up Steps: Add a week_number as a new column to the dataset if possible.Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
 ;
 
 proc means data=Absenteeism_analytic_file mean median maxdec=2;
@@ -114,10 +115,10 @@ footnote1
 ;
 
 *
-Methodology: Use proc freq to study the weekly pattern for each season. Count the Absenteeism_time_in hours where value is not 0,
-Crosstable with ID is also used to find out the week pattern of each employee.
+Methodology: Use proc freq to study the weekly pattern for each season. Count the Absenteeism_time_in hours where value is not 0.Crosstable with ID is also used to find out the week pattern of each employee.
 
 Limitations: In special month or season, it may have special daily distribution.
+
 Follow-up Steps:Check this pattern in a special month or season according to the context.
 ;
 

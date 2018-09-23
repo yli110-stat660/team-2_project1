@@ -57,19 +57,36 @@ properties has no practical meaning.
 Follow-up Steps: use a CLASS statement in PROC MEANS to get the summary
 statistics for each employee
 ;
-proc means data = absenteeism_at_work_noduprecs mean median maxdec=2;
-    var Absenteeism_time_in_hours;
+proc means 
+    	mean median maxdec=2
+    	data = absenteeism_analytic_file
+	;
+    var 
+		Absenteeism_time_in_hours
+	;
 run;
 
 
-proc univariate data=Absenteeism_at_work_noduprecs noprint;
-    var Absenteeism_time_in_hours;
+proc univariate 
+		noprint
+		data=absenteeism_analytic_file
+	;
+    var 
+		Absenteeism_time_in_hours
+	;
 	histogram;
 run;
 
-proc means data=absenteeism_at_work_noduprecs mean median maxdec=2;
-    class id;
-	var Absenteeism_time_in_hours;
+proc means 
+		mean median maxdec=2
+		data=absenteeism_analytic_file
+	;
+    class 
+		id
+	;
+	var 
+		Absenteeism_time_in_hours
+	;
 run;
 
 title;
@@ -107,12 +124,17 @@ Possible Follow-up Steps: check the total abseentism for every worker, and
 create a subset of the dataset, which only has the 36 employees with a binary
 variable to indicate if he or she is ever absent.
 ;
-proc logistic data=absence_categorical;
-	model absence = Work_load_Average_day;
+proc logistic 
+		data=Absenteeism_analytic_file_temp
+	;
+	model absence = Work_load_Average_day
+	;
 run;
 
-proc glm ;
-	model absenteeism_time_in_hours = Work_load_Average_day;
+proc glm 
+	;
+	model absenteeism_time_in_hours = Work_load_Average_day
+	;
 run;
 
 title;
@@ -121,11 +143,11 @@ footnote;
 
 
 title1
-'Research Question: What are the most common reasons for the absenteeism of employees?'
+'Research Question: Which employees have more absenteeism and what are their reasons?'
 ;
 
 title2
-'Rationale: Knowing the common reasons for absenteeism gives adive on the management, and helps to improve the vacation policies'
+'Rationale: Identifying the employees who have more absenteeism helps to decide if their absenteeisms are due to personal issues or more common reasons among other employees?'
 ;
 
 footnote1
@@ -147,15 +169,29 @@ Possilble Follow-up Steps: get a histogram for the reasons' frequency and then
 compare the histograms between workers -- data visualizaion often helps to 
 quickly identify the change.
 ;
-proc freq data = absenteeism_at_work_noduprecs;
-	tables id*reason_for_absence /nopercent norow nocol;
-	format reason_for_absence reasonofabsence.;
+proc freq 
+		data = Absenteeism_analytic_file
+	;
+	tables 
+		id*reason_for_absence 
+		/ nopercent norow nocol
+	;
+	format 
+		reason_for_absence reasonofabsence.;
 run;
 
-proc freq data = absence_categorical;
-	tables id*reason_for_absence /nopercent norow nocol;
-	where absence = 1;
-	format reason_for_absence reasonofabsence.;
+proc freq 
+		data = Absenteeism_analytic_file_temp
+	;
+	tables 
+		id*reason_for_absence 
+		/nopercent norow nocol
+	;
+	where 
+		absence = 1
+	;
+	format 
+		reason_for_absence reasonofabsence.;
 run;
 
 title;
