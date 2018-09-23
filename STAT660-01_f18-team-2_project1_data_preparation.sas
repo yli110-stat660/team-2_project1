@@ -122,30 +122,21 @@ data Absenteeism_analytic_file;
         Reason_for_absence
         Month_of_absence
         Day_of_the_week
-		Absenteeism_time_in_hours
-		Work_load_Average_day
+	Absenteeism_time_in_hours
+	Work_load_Average_day
     ;
     keep
         ID
         Reason_for_absence
         Month_of_absence
         Day_of_the_week
-		Absenteeism_time_in_hours
-		Work_load_Average_day
+	Absenteeism_time_in_hours
+	Work_load_Average_day
     ;
     set Absenteeism_at_work_noduprecs;
 run;
 
 
-*use the DATA step and IF statement to get a new variable absence which only 
-takes the value 0 or 1 in a tempary file, which will be used as part of the
-data analysis by YL;
-data Absenteeism_analytic_file_temp; 
-	set absenteeism_at_work_noduprecs;
-		absence = 0;
-		if absenteeism_time_in_hours >0 
-		then absence = 1;
-run;
 
 
 
