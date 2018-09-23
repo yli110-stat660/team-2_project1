@@ -133,7 +133,7 @@ data Absenteeism_analytic_file;
         Day_of_the_week
         Absenteeism_time_in_hours
         Work_load_Average_day
-		absence
+        absence
     ;
     keep
         ID
@@ -142,7 +142,7 @@ data Absenteeism_analytic_file;
         Day_of_the_week
         Absenteeism_time_in_hours
         Work_load_Average_day
-		absence
+        absence
     ;
     set Absenteeism_analytic_file_temp;
 run;
