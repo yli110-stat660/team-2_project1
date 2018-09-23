@@ -138,7 +138,7 @@ data Absenteeism_analytic_file;
         absence
     ;
     set Absenteeism_at_work_noduprecs;
-	absence = 0;
-	if absenteeism_time_in_hours >0 
-	then absence = 1;
+    absence = 0;
+    if absenteeism_time_in_hours >0 
+    then absence = 1;
 run;
