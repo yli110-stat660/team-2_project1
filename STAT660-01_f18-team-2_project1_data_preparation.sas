@@ -113,18 +113,11 @@ proc sort
  ;
 run;
 
-*use the DATA step and IF statement to get a new variable absence which only 
-takes the value 0 or 1;
-data Absenteeism_analytic_file_temp; 
-	set absenteeism_at_work_noduprecs;
-		absence = 0;
-		if absenteeism_time_in_hours >0 
-		then absence = 1;
-run;
-
-* build analytic dataset from Absenteeism_analytic_file_temp dataset with the 
+* build analytic dataset from Absenteeism_at_work_noduprecs dataset with the 
 least number of columns and minimal cleaning/transformation needed to 
-address research questions in corresponding data-analysis files;
+address research questions in corresponding data-analysis files. And then
+create a new variable which shows 1 when absenteeism_time_in_hours >0, and
+0 otherwise;
 data Absenteeism_analytic_file;
     retain
         ID
@@ -144,10 +137,8 @@ data Absenteeism_analytic_file;
         Work_load_Average_day
         absence
     ;
-    set Absenteeism_analytic_file_temp;
+    set Absenteeism_at_work_noduprecs;
+	absence = 0;
+	if absenteeism_time_in_hours >0 
+	then absence = 1;
 run;
-
-
-
-
-

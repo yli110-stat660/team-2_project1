@@ -198,10 +198,10 @@ proc freq
 		reason_for_absence reasonofabsence.;
 run;
 
-proc gchart 
+proc sgplot 
 		data=absenteeism_analytic_file
 	;
-    vbar 
+	vbar 
 		ID
 	;
 	where
