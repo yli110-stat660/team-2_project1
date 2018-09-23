@@ -201,7 +201,7 @@ run;
 proc sgplot 
 		data=absenteeism_analytic_file
 	;
-    vbar 
+	vbar 
 		ID
 	;
 	where
