@@ -58,7 +58,7 @@ proc freq data =Absenteeism_analytic_file;
 	table Reason_for_absence /nocum;
 run;
 
-proc freq  data =Absenteeism_analytic_file;
+proc freq data =Absenteeism_analytic_file;
 	table Reason_for_absence*ID /nopercent;
 run;
 title;
