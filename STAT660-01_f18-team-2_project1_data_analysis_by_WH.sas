@@ -56,12 +56,22 @@ be better give same weight to each employee for more accurate results.
 Follow-up Steps: Add weight to the frequency count.
 ;
 
-proc freq data =Absenteeism_analytic_file;
-	table Reason_for_absence /nocum;
+proc freq 
+	data =Absenteeism_analytic_file
+     ;
+     table 
+	Reason_for_absence 
+	/nocum
+     ;
 run;
 
-proc freq data =Absenteeism_analytic_file;
-	table Reason_for_absence*ID /nopercent;
+proc freq 
+	data =Absenteeism_analytic_file
+     ;
+     table 
+        Reason_for_absence*ID 
+	/nopercent
+     ;
 run;
 title;
 footnote;
