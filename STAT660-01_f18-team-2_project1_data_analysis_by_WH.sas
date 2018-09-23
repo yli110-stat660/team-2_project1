@@ -104,7 +104,7 @@ week_number,month_of_absence,reason_for_absence as a composite key.
 ;
 
 proc means 
-	data=Absenteeism_analytic_file 
+	data =Absenteeism_analytic_file 
 	mean median maxdec=2
      ;
      class 
@@ -116,7 +116,7 @@ proc means
 run;
 
 proc means 
-	data=Absenteeism_analytic_file 
+	data =Absenteeism_analytic_file 
 	mean median maxdec=2
      ;
      var 
