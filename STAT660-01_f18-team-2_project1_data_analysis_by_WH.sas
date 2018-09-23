@@ -47,9 +47,11 @@ footnote2
 ;
 
 *
-Methodology: Used proc freq to find the frequency of each reason, using the result to find out the most common one.
+Methodology: Used proc freq to find the frequency of each reason, 
+using the result to find out the most common one.
 
-Limitations: Since each employee had multiple reasons,it would be better give same weight to each employee for more accurate results.
+Limitations: Since each employee had multiple reasons,it would 
+be better give same weight to each employee for more accurate results.
 
 Follow-up Steps: Add weight to the frequency count.
 ;
@@ -75,26 +77,41 @@ title2
 
 ;
 
-footnote1
+footnote
 'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours while the average of absenteeism hours is 6.99 hours. '
 
 ;
 
 *
-Methodology: Use PROC MEANS to find out the average absenteeism hours for each reason.
+Methodology: Use PROC MEANS to find out the average absenteeism 
+hours for each reason.
 
 Limitations: There may be duplicates in the dataset.
 
-Follow-up Steps: Add a week_number as a new column to the dataset if possible.Then use id, absenteeism_time_in_hours, Day_of_the_week,week_number,month_of_absence,reason_for_absence as a composite key.
+Follow-up Steps: Add a week_number as a new column to the dataset 
+if possible.Then use id, absenteeism_time_in_hours, Day_of_the_week,
+week_number,month_of_absence,reason_for_absence as a composite key.
 ;
 
-proc means data=Absenteeism_analytic_file mean median maxdec=2;
-	class reason_for_absence;
-	var Absenteeism_time_in_hours;
+proc means 
+	data=Absenteeism_analytic_file 
+	mean median maxdec=2
+     ;
+     class 
+	reason_for_absence
+     ;
+     var 
+        Absenteeism_time_in_hours
+     ;
 run;
 
-proc means data=Absenteeism_analytic_file mean median maxdec=2;
-	var Absenteeism_time_in_hours;
+proc means 
+	data=Absenteeism_analytic_file 
+	mean median maxdec=2
+     ;
+     var 
+        Absenteeism_time_in_hours
+     ;
 run;
 title;
 footnote;
@@ -109,27 +126,43 @@ title2
 
 ;
 
-footnote1
+footnote
 'Based on the summary table, although day 2 of the week had a bit higher frequency of 22.34%, hypothesis testing will be needed for significance difference test.'
 
 ;
 
 *
-Methodology: Use proc freq to study the weekly pattern for each season. Count the Absenteeism_time_in hours where value is not 0.Crosstable with ID is also used to find out the week pattern of each employee.
+Methodology: Use proc freq to study the weekly pattern for each season. Count the
+Absenteeism_time_in hours where value is not 0.Crosstable with ID 
+is also used to find out the week pattern of each employee.
 
 Limitations: In special month or season, it may have special daily distribution.
 
-Follow-up Steps:Check this pattern in a special month or season according to the context.
+Follow-up Steps:Check this pattern in a special month or season when needed.
 ;
 
-proc freq data =Absenteeism_analytic_file;
-	table Day_of_the_week /nocum;
-	where Absenteeism_time_in_hours NE 0;
+proc freq 
+	data =Absenteeism_analytic_file
+     ;
+     table 
+	Day_of_the_week 
+	/nocum
+     ;
+     where 
+        Absenteeism_time_in_hours NE 0
+     ;
 run;
 
-proc freq data =Absenteeism_analytic_file;
-	table Day_of_the_week*ID /nocum;
-	where Absenteeism_time_in_hours NE 0;
+proc freq 
+	data =Absenteeism_analytic_file
+     ;
+     table 
+        Day_of_the_week*ID 
+	/nocum
+     ;
+     where 
+	Absenteeism_time_in_hours NE 0
+     ;
 run;
 title;
 footnote;
