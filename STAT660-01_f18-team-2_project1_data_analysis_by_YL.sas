@@ -74,7 +74,7 @@ proc univariate
     var 
 		Absenteeism_time_in_hours
 	;
-	histogram;
+    histogram;
 run;
 
 proc means 
@@ -84,7 +84,7 @@ proc means
     class 
 		id
 	;
-	var 
+    var 
 		Absenteeism_time_in_hours
 	;
 run;
@@ -205,7 +205,7 @@ proc sgplot
 		ID
 	;
 	where
-        absence = 1;
+	        absence = 1;
 run;
 quit;
 
