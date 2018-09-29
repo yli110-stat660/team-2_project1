@@ -29,36 +29,36 @@ downloaded from the UCI machine learning repository.
 *create output formats;
 proc format;
     value reasonofabsence
-		0 = 'NA'
-		1 = 'Infectious and parasitic disease'
-		2 = 'neoplasm'
-		3 = 'blood disease'
-		4 = 'endocrine disease'
-		5 = 'mental and behaviour disorder'
-		6 = 'nervous disease'
-		7 = 'eye'
-		8 = 'ear'
-		9 = 'circulatory'
-		10= 'respiratory'
-		11= 'digestive'
-		12= 'skin'
-		13= 'muscle'
-		14= 'genitourinary'
-		15= 'pregnancy'
-		16= 'perinatal'
-		17= 'congenital'
-		18= 'clinical'
-		19= 'injury'
-		20= 'morbidity and mortality'
-		21= 'factors'
-		22= 'followup'
-		23= 'medical consultation'
-		24= 'blodd donation'
-		25= 'lab'
-		26= 'unjustified'
-		27= 'physiotherapy'
-		28= 'dental'
-	;
+        0 = 'NA'
+        1 = 'Infectious and parasitic disease'
+        2 = 'neoplasm'
+        3 = 'blood disease'
+        4 = 'endocrine disease'
+        5 = 'mental and behaviour disorder'
+        6 = 'nervous disease'
+        7 = 'eye'
+        8 = 'ear'
+        9 = 'circulatory'
+        10= 'respiratory'
+        11= 'digestive'
+        12= 'skin'
+        13= 'muscle'
+        14= 'genitourinary'
+        15= 'pregnancy'
+        16= 'perinatal'
+        17= 'congenital'
+        18= 'clinical'
+        19= 'injury'
+        20= 'morbidity and mortality'
+        21= 'factors'
+        22= 'followup'
+        23= 'medical consultation'
+        24= 'blodd donation'
+        25= 'lab'
+        26= 'unjustified'
+        27= 'physiotherapy'
+        28= 'dental'
+    ;
 run;
 
 *setup environmental parameters;
@@ -104,27 +104,20 @@ https://github.com/stat660/team-2_project1/blob/master/Absenteeism_at_work.xls?r
 *check raw absenteeism_at_work dataset for duplicate records;
 proc sort
     noduprecs
-	data=Absenteeism_at_work_raw
-	dupout=Absenteeism_at_work_dups
-	out=Absenteeism_at_work_noduprecs
+    data=Absenteeism_at_work_raw
+    dupout=Absenteeism_at_work_dups
+    out=Absenteeism_at_work_noduprecs
   ;
   by
     id
  ;
 run;
 
-*use the DATA step and IF statement to get a new variable absence which only 
-takes the value 0 or 1;
-data Absenteeism_analytic_file_temp; 
-	set absenteeism_at_work_noduprecs;
-		absence = 0;
-		if absenteeism_time_in_hours >0 
-		then absence = 1;
-run;
-
-* build analytic dataset from Absenteeism_analytic_file_temp dataset with the 
+* build analytic dataset from Absenteeism_at_work_noduprecs dataset with the 
 least number of columns and minimal cleaning/transformation needed to 
-address research questions in corresponding data-analysis files;
+address research questions in corresponding data-analysis files. And then
+create a new variable which shows 1 when absenteeism_time_in_hours >0, and
+0 otherwise;
 data Absenteeism_analytic_file;
     retain
         ID
@@ -144,10 +137,8 @@ data Absenteeism_analytic_file;
         Work_load_Average_day
         absence
     ;
-    set Absenteeism_analytic_file_temp;
+    set Absenteeism_at_work_noduprecs;
+    absence = 0;
+    if absenteeism_time_in_hours >0 
+    then absence = 1;
 run;
-
-
-
-
-

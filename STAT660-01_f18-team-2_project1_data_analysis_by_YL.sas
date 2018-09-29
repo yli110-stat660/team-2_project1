@@ -58,35 +58,35 @@ Follow-up Steps: use a CLASS statement in PROC MEANS to get the summary
 statistics for each employee
 ;
 proc means 
-    	mean median maxdec=2
-    	data = absenteeism_analytic_file
-	;
+        mean median maxdec=2
+        data = absenteeism_analytic_file
+    ;
     var 
-		Absenteeism_time_in_hours
-	;
+        Absenteeism_time_in_hours
+    ;
 run;
 
 
 proc univariate 
-		noprint
-		data=absenteeism_analytic_file
-	;
+        noprint
+        data=absenteeism_analytic_file
+    ;
     var 
-		Absenteeism_time_in_hours
-	;
-	histogram;
+        Absenteeism_time_in_hours
+    ;
+    histogram;
 run;
 
 proc means 
-		mean median maxdec=2
-		data=absenteeism_analytic_file
-	;
+        mean median maxdec=2
+        data=absenteeism_analytic_file
+    ;
     class 
-		id
-	;
-	var 
-		Absenteeism_time_in_hours
-	;
+        id
+    ;
+    var 
+        Absenteeism_time_in_hours
+    ;
 run;
 
 title;
@@ -125,16 +125,16 @@ create a subset of the dataset, which only has the 36 employees with a binary
 variable to indicate if he or she is ever absent.
 ;
 proc logistic 
-		data=Absenteeism_analytic_file
-	;
-	model absence = Work_load_Average_day
-	;
+        data=Absenteeism_analytic_file
+    ;
+    model absence = Work_load_Average_day
+    ;
 run;
 
 proc glm 
-	;
-	model absenteeism_time_in_hours = Work_load_Average_day
-	;
+    ;
+    model absenteeism_time_in_hours = Work_load_Average_day
+    ;
 run;
 
 title;
@@ -174,41 +174,40 @@ compare the histograms between workers -- data visualizaion often helps to
 quickly identify the change.
 ;
 proc freq 
-		data = Absenteeism_analytic_file
-	;
-	tables 
-		id*reason_for_absence 
-		/ nopercent norow nocol
-	;
-	format 
-		reason_for_absence reasonofabsence.;
+        data = Absenteeism_analytic_file
+    ;
+    tables 
+        id*reason_for_absence 
+        / nopercent norow nocol
+    ;
+    format 
+        reason_for_absence reasonofabsence.;
 run;
 
 proc freq 
-		data = Absenteeism_analytic_file
-	;
-	tables 
-		id*reason_for_absence 
-		/nopercent norow nocol
-	;
-	where 
-		absence = 1
-	;
-	format 
-		reason_for_absence reasonofabsence.;
+        data = Absenteeism_analytic_file
+    ;
+    tables 
+        id*reason_for_absence 
+        /nopercent norow nocol
+    ;
+    where 
+        absence = 1
+    ;
+    format 
+        reason_for_absence reasonofabsence.;
 run;
 
-proc gchart 
-		data=absenteeism_analytic_file
-	;
+proc sgplot 
+        data=absenteeism_analytic_file
+    ;
     vbar 
-		ID
-	;
-	where
+        ID
+    ;
+    where
         absence = 1;
 run;
 quit;
 
 title;
 footnote;
-
