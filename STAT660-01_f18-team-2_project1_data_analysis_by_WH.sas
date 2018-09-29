@@ -87,11 +87,20 @@ title2
 
 ;
 
-footnote
-'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours while the average of absenteeism hours is 6.99 hours. '
+footnote1
+'Based on the summary table, diseases of the circulatory system had the longest average absenteeism hours which is 42 hours. '
 
 ;
 
+footnote2
+'The the average of absenteeism time in hours is only 6.99 hours.'
+
+;
+
+footnote3
+'This could tell us there would be a high chance that a employee who takes absence for the reason of circulatory system would have a longer absenttesim time.' 
+
+;
 *
 Methodology: Use PROC MEANS to find out the average absenteeism 
 hours for each reason.
@@ -136,8 +145,18 @@ title2
 
 ;
 
-footnote
-'Based on the summary table, although day 2 of the week had a bit higher frequency of 22.34%, hypothesis testing will be needed for significance difference test.'
+footnote1
+'Based on the summary table, the frequency of each work day in a week is from 19%-22.34% which are round 20%.'
+
+;
+
+footnote2
+'Although day 2 of the week had a bit higher frequency of 22.34%,hypothesis testing will be needed for significance difference test if we are interested in it.'
+
+;
+
+footnote3
+'Genreally speaking,employees take absence with no preferrence on days. But there could be a special patterns if analyzed by months or seasons.'
 
 ;
 
